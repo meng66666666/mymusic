@@ -1,0 +1,51 @@
+{% extends "title_base.html"  %}
+{% block title  %}
+{% load staticfiles %}
+<link type="image/x-icon" rel="shortcut icon" href="{% static "favicon.ico" %}">
+<link type="text/css" rel="stylesheet" href="{% static "css/common.css" %}">
+<link type="text/css" rel="stylesheet" href="{% static "css/register.css" %}">
+</head>
+
+<body class="review">
+<div class="wrapper">
+    <div class="header clearfix">
+        <a href="/" class="logo">我的音乐</a>
+        <span class="logo-tip">Hi,我的音乐欢迎您!</span>
+    </div>
+    <div class="content clearfix">
+        <!-- 登录注册版块 -->
+        <div id="unauth_main" class="login-regist">
+            <!-- //登录版块end -->
+            <div class="regist-box" style="display:inline-block;">
+                <div class="title">用户注册</div>
+                <form id="registerForm" class="formBox" method="post" action="">
+                    {% csrf_token %}
+                    <div id="registForm" class="formBox">
+                    <div class="itembox user-name">
+                        {{ form.as_p }}
+                        {{ error }}
+                    </div>
+                    <div class="profile__cover_link">
+                        <img src="{% static "image/user.jpg" %}"  width="100" height="100"
+                    style="border: 1px solid red;padding: 5px;" id="preImg"  onclick="selector.click();">
+                    </div>
+                    <input type="hidden" name="photo" id="photo">
+                    {% if tips %}
+                        <div>提示:<span>{{ tips }}</span></div>
+                    {% endif %}
+                    <div class="member-pass clearfix">
+                        <input id="agree" name="agree" checked="checked" type="checkbox" value="1"><label for="agree" class="autologon">已阅读并同意用户注册协议</label>
+                    </div>
+                        <input type="submit" value="免费注册" id="J_RegButton" class="pass-btn tabInput"/>
+                        <div class="pass-reglink">已有我的音乐帐号，<a class="switch" href="{% url 'myuser:login' %}">立即登录</a></div>
+                    </div>
+
+                </form>
+                <input type="file" id="selector" style="display: none" onchange="upload_img(this.files[0])">
+            </div>
+        </div>
+    </div>
+</div>
+<script data-main="{% static "js/register.js" %}" src="{% static "js/require.js" %}"></script>
+{% endblock  %}
+

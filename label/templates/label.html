@@ -1,0 +1,70 @@
+{% extends "title_base.html" %}
+{% block title %}
+    {% load staticfiles %}
+    <link type="image/x-icon" rel="shortcut icon" href="{% static "favicon.ico" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/common.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/ranking.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/index.css" %}">
+    </head>
+    <body>
+    <div class="category-nav">
+        <div class="category-nav-header">
+            <strong><a href="javascript:" title="">音乐分类</a></strong>
+        </div>
+        <div class="category-nav-body" style="margin-left:285px;margin-top: 68px;">
+            <div id="J_CategoryItems" class="category-items" >
+                {% for label in label_list %}
+                    <div class="item" data-index="1"><h3>
+                        <a href="#" id="label_a">{{ label.label_name }}</a></h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="main" style="float: right;width: 900px;margin-right: 200px;" >
+        <div class="main-head-box clearfix">
+            <div><h1 >歌曲排行榜</h1></div>
+        </div>
+        <table class="rank-list-table" style="color: black; float: right;margin-right: 0px;">
+            <tr>
+                <th class="cell-1">排名</th>
+                <th class="cell-2">图片</th>
+                <th class="cell-3">歌名</th>
+                <th class="cell-4">专辑</th>
+                <th class="cell-5">下载量</th>
+                <th class="cell-6">播放量</th>
+            </tr>
+
+            {% for item in song_info %}
+                <tr>
+                    {% if forloop.counter < 4 %}
+                        <td><span class="n1">{{ forloop.counter }}</span></td>
+                    {% else %}
+                        <td><span class="n2">{{ forloop.counter }}</span></td>
+                    {% endif %}
+                    <td style="text-align: center;">
+                        <a href="{% url 'player:play' item.song_id %}" class="pic" target="play"><img
+                                src="{{ item.song_img }}" width="80" height="80"></a>
+                    </td>
+                    <td class="name-cell">
+                        {#                    <h3 ><a href="{% url 'player:play' item.song_id %}" target="play" >{{item.song_name}}</a></h3>#}
+                        <div class="desc">
+                            <a href="{% url 'player:play' item.song_id %}" target="_self"
+                               class="type">{{ item.song_name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div>{{ item.song_album }}</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div style="text-align:center;">{{ item.download_num }}</div>
+                    </td>
+                    <td class="num-cell">{{ item.play_num }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+    <script data-main="{% static "js/ranking.js" %}" src="{% static "js/require.js" %}"></script>
+    <script src="{% static 'js/label.js' %}"></script>
+{% endblock %}
